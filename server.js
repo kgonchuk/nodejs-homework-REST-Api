@@ -1,10 +1,8 @@
 const mongoose = require("mongoose");
 const app = require("./app");
 
-const { DB_URL, PORT } = process.env;
-
 mongoose.set("strictQuery", true);
-
+const { DB_URL, PORT } = process.env;
 mongoose
   .connect(DB_URL)
   .then(() => {
