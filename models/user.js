@@ -1,9 +1,5 @@
 const { Schema, model } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
-const Joi = require("joi");
-
-const emailRegexp = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-const enumList = ["starter", "pro", "business"];
 
 const userSchema = new Schema(
   {
@@ -27,29 +23,8 @@ const userSchema = new Schema(
 );
 userSchema.post("save", handleMongooseError);
 
-const registerSchema = Joi.object({
-  password: Joi.string().min(6).required(),
-  email: Joi.string().pattern(emailRegexp).required(),
-});
-
-const loginSchema = Joi.object({
-  email: Joi.string().pattern(emailRegexp).required(),
-  password: Joi.string().min(6).required(),
-});
-
-const subscriptionUpdate = Joi.object({
-  subscription: Joi.string().valid(...enumList),
-});
-
-const schemas = {
-  registerSchema,
-  loginSchema,
-  subscriptionUpdate,
-};
-
 const User = model("user", userSchema);
 
 module.exports = {
   User,
-  schemas,
 };

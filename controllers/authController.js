@@ -1,12 +1,10 @@
 const { User } = require("../models/user");
-const schemas = require("../models/user");
-
-const jwt = require("jsonwebtoken");
-
 const { HttpError, ctrlWrapper } = require("../helpers");
-const { SECRET_KEY } = process.env;
 
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+const { SECRET_KEY } = process.env;
 
 const register = async (req, res) => {
   const { email, password } = req.body;
@@ -62,19 +60,15 @@ const logout = async (req, res) => {
 };
 
 const subscriptionUpdate = async (req, res, next) => {
-  const { error } = schemas.subscriptionUpdate(req.body);
-  if (error) {
-    next(HttpError(400, error.message));
-  }
   const { _id } = req.user;
   const { subscription } = req.body;
   await User.findByIdAndUpdate(_id, { subscription });
   res.json({
     message: `Subscription has been changed successfully to ${subscription}`,
   });
-
   res.status(200).json({ subscription });
 };
+
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
