@@ -63,10 +63,13 @@ const subscriptionUpdate = async (req, res, next) => {
   const { _id } = req.user;
   const { subscription } = req.body;
   await User.findByIdAndUpdate(_id, { subscription });
-  res.json({
-    message: `Subscription has been changed successfully to ${subscription}`,
-  });
-  res.status(200).json({ subscription });
+
+  res
+    .status(200)
+    .json({
+      subscription,
+      message: `Subscription has been changed successfully to ${subscription}`,
+    });
 };
 
 module.exports = {
